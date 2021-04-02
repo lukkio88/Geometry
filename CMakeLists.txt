@@ -3,8 +3,10 @@ project(Geometry)
 
 set(CMAKE_CXX_STANDARD 14)
 
-set(SOURCE_FOLDERS ${CMAKE_SOURCE_DIR}/src)
-set(INCLUDE_FOLDERS ${CMAKE_SOURCE_DIR}/include)
+option(BUILD_EXAMPLES "Build Examples" OFF)
+
+set(SOURCE_FOLDERS ${PROJECT_SOURCE_DIR}/src)
+set(INCLUDE_FOLDERS ${PROJECT_SOURCE_DIR}/include)
 
 set(SOURCE_FILES 
 	${SOURCE_FOLDERS}/point.cpp
@@ -18,5 +20,7 @@ set(HEADER_FILES
 add_library(geometry STATIC ${SOURCE_FILES} ${HEADER_FILES})
 target_include_directories(geometry PUBLIC ${INCLUDE_FOLDERS})
 
-add_executable(tutorial-1 ./tutorial/main.cpp)
-target_include_directories(tutorial-1 PUBLIC ${INCLUDE_FOLDERS})
+if(${BUILD_EXAMPLES})
+	add_executable(tutorial-1 ./tutorial/main.cpp)
+	target_include_directories(tutorial-1 PUBLIC ${INCLUDE_FOLDERS})
+endif()

@@ -1,33 +1,9 @@
 #include <point.hpp>
 #include <cmath>
 
-Vector::Vector(float x, float y) :x(x), y(y) { ; }
-
-
-float Vector::getX() const
-{
-	return x;
-}
-
-float Vector::getY() const
-{
-	return y;
-}
-
-void Vector::setX(float x)
-{
-	this->x = x;
-}
-
-void Vector::setY(float y)
-{
-	this->y = y;
-}
-
-
 Vector Vector::operator+(const Vector& v) const
 {
-	return Vector{getX() + v.getX(),getY() + v.getY()};
+	return Vector{x + v.x,y + v.y};
 }
 Vector Vector::operator-(const Vector& v) const
 {
@@ -36,7 +12,7 @@ Vector Vector::operator-(const Vector& v) const
 
 Vector Vector::operator-() const
 {
-	return Vector{-getX(),-getY()};
+	return Vector{-x,-y};
 }
 
 Vector Vector::normalize() const
@@ -47,12 +23,12 @@ Vector Vector::normalize() const
 
 float Vector::operator*(const Vector& v) const
 {
-	return getX()*v.getX() + getY()*v.getY();
+	return x*v.x + y*v.y;
 }
 
 Vector operator*(float scalar, const Vector& v)
 {
-	return Vector{scalar*v.getX(),scalar*v.getY()};
+	return Vector{scalar*v.y,scalar*v.y};
 }
 
 float distance(const Point& a, const Point& b)
@@ -63,7 +39,7 @@ float distance(const Point& a, const Point& b)
 
 Vector rotate90cw(const Vector& v)
 {
-	return Vector(-v.getY(), v.getX());
+	return Vector{ -v.y, v.x };
 }
 
 float triangleArea(const Point& a, const Point& b, const Point& c)
@@ -71,7 +47,7 @@ float triangleArea(const Point& a, const Point& b, const Point& c)
 	Point a2b = b - a;
 	Point a2c = c - a;
 	return 0.5f * determinant(
-		a2b.getX(), a2c.getX(),
-		a2b.getY(), a2c.getY()
+		a2b.x, a2c.x,
+		a2b.y, a2c.y
 	);
 }

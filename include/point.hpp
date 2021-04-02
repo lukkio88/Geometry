@@ -2,22 +2,17 @@
 #define POINT_H
 #include <geo_utils.hpp>
 
-class Vector
+struct Vector
 {
 public:
-	Vector(float x, float y);
-	float getX() const;
-	float getY() const;
-	void setX(float x);
-	void setY(float y);
 	Vector operator+(const Vector& v) const;
 	Vector operator-(const Vector& v) const;
 	Vector operator-() const;
 	Vector normalize() const;
 	float operator*(const Vector& v) const;
 	friend Vector operator*(float scalar, const Vector& v);
-	static Point Zero() { return Point(0.0f, 0.0f); }
-private:
+	static Vector Zero() { return Vector{ 0.0f, 0.0f }; }
+public:
 	float x;
 	float y;
 };
