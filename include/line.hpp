@@ -18,8 +18,10 @@ struct Segment
 {
 public:
 	Point getDirection() const;
-	bool contains(const Point& point);
-	void split(Segment& s1, Segment& s2, const Point& p);
+	bool contains(const Point& point) const;
+	void split(Segment& s1, Segment& s2, const Point& p) const;
+	bool getX(float y, float& x) const;
+	friend std::ostream& operator<<(std::ostream& os, const Segment& s);
 public:
 	Point origin;
 	Point destination;
