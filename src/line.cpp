@@ -49,7 +49,7 @@ Point Segment::getDirection() const
 	return (destination - origin).normalize();
 }
 
-bool Segment::contains(const Point& point)
+bool Segment::contains(const Point& point) const
 {
 	Vector segmentDirection = getDirection();
 	float segmentLength = distance(origin, destination);
@@ -61,10 +61,23 @@ bool Segment::contains(const Point& point)
 
 }
 
-void Segment::split(Segment& s1, Segment& s2, const Point& p)
+void Segment::split(Segment& s1, Segment& s2, const Point& p) const
 {
 	s1.origin = origin;
 	s1.destination = p;
 	s2.origin = p;
 	s2.destination = destination;
+}
+
+bool Segment::getX(float y, float& x) const
+{
+	Vector delta = destination - origin;
+	x = origin.x + delta.x / delta.y*(destination.y - y);
+	return contains(Point{ x,y });
+}
+
+std::ostream& operator<<(std::ostream& os, const Segment& s)
+{
+	os << s.origin << " " << s.destination;
+	return os;
 }

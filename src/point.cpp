@@ -15,6 +15,16 @@ Vector Vector::operator-() const
 	return Vector{-x,-y};
 }
 
+bool Vector::operator==(const Vector& v) const
+{
+	return (x == v.x) && (y == v.y);
+}
+
+bool Vector::operator!=(const Vector& v) const
+{
+	return !(*this == v);
+}
+
 Vector Vector::normalize() const
 {
 	float invNorm = 1.0f/distance(*this, Zero());
@@ -29,6 +39,12 @@ float Vector::operator*(const Vector& v) const
 Vector operator*(float scalar, const Vector& v)
 {
 	return Vector{scalar*v.y,scalar*v.y};
+}
+
+std::ostream& operator<<(std::ostream& os, const Vector& v)
+{
+	os << "(" << v.x << " ," << v.y << " )";
+	return os;
 }
 
 float distance(const Point& a, const Point& b)
