@@ -69,6 +69,8 @@ public:
 	*/
 	bool getX(float y, float& x) const;
 
+	bool intersect(const Segment& s, Point& p) const;
+
 	/**
 	 * @brief Printing function
 	 * @param os Output stream reference
