@@ -4,7 +4,7 @@ float determinant(
 	float a, float b, 
 	float c, float d)
 {
-	return a * c - b * d;
+	return a * d - c * b;
 }
 
 float determinant(

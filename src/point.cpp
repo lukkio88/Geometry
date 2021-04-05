@@ -38,7 +38,7 @@ float Vector::operator*(const Vector& v) const
 
 Vector operator*(float scalar, const Vector& v)
 {
-	return Vector{scalar*v.y,scalar*v.y};
+	return Vector{scalar*v.x,scalar*v.y};
 }
 
 std::ostream& operator<<(std::ostream& os, const Vector& v)

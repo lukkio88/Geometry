@@ -10,11 +10,21 @@ bool Line::contains(const Point& p) const
 Point Line::getIntersection(const Line& l) const
 {
 	//this assumes the lines intersect in single point
-	Point direction1 = direction;
-	Point direction2 = l.direction;
+	Point directionLhs = direction;
+	Point directionRhs = l.direction;
 	Point deltaOrigin = l.origin - origin;
-	Point rejection = direction1 - (direction1 * direction2) * direction2;
-	return ((rejection * deltaOrigin) / (rejection * direction1))*direction1;
+	
+	//Applying Cramer rule
+	float alphaLhs =
+		determinant(
+			deltaOrigin.x, -directionRhs.x,
+			deltaOrigin.y, -directionRhs.y) /
+		determinant(
+			directionLhs.x, -directionRhs.x,
+			directionLhs.y, -directionRhs.y
+		);
+
+	return origin + alphaLhs * direction;
 }
 
 bool doIntersect(const Line& line1, const Line& line2)
@@ -71,9 +81,37 @@ void Segment::split(Segment& s1, Segment& s2, const Point& p) const
 
 bool Segment::getX(float y, float& x) const
 {
+	/*
+	from the line equation
+	x = ox + alpha*dx
+	y = oy + alpha*dy
+
+	x = ox + ((y - oy)/dy)*dx;
+	*/
 	Vector delta = destination - origin;
-	x = origin.x + delta.x / delta.y*(destination.y - y);
+	x = origin.x + ((y - origin.y) / delta.y)*delta.x;
 	return contains(Point{ x,y });
+}
+
+bool Segment::intersect(const Segment& s, Point& p) const
+{
+	Line lineSpannedLhs{ origin,destination - origin };
+	Line lineSpannedRhs{ s.origin, s.destination - s.origin };
+
+	bool parallel = (lineSpannedLhs.origin != lineSpannedRhs.origin) &&
+		(fabs(determinant(
+			lineSpannedLhs.origin.x, lineSpannedRhs.origin.x,
+			lineSpannedLhs.origin.y, lineSpannedRhs.origin.y
+		)) < 0.00001f);
+
+	if (!parallel)
+	{
+		p = lineSpannedLhs.getIntersection(lineSpannedRhs);
+		return contains(p) && s.contains(p);
+	}
+	else {
+		return false;
+	}
 }
 
 std::ostream& operator<<(std::ostream& os, const Segment& s)
